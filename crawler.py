@@ -1,5 +1,7 @@
-import requests
+from pathlib import Path
 from urllib.parse import urlsplit
+
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -27,3 +29,18 @@ def to_relative(url, base_url):
     path = parsed_url.path.strip('/')
     if path.startswith(base_path):
         return path[len(base_path):].strip('/')
+
+
+def save_page(page, url, base_url, base_dir):
+    page_path = to_relative(url, base_url)
+    page_file = Path(base_dir).joinpath(page_path)
+    page_file.parent.mkdir(parents=True, exist_ok=True)
+    page_file.write_text(page)
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()

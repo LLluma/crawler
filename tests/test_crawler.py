@@ -1,6 +1,6 @@
-from ..crawler import get_page, parse_page, to_relative
 from unittest import mock
 
+from ..crawler import get_page, parse_page, save_page, to_relative
 
 PAGE = '''
 <html>
@@ -38,3 +38,12 @@ def test_parse_page():
     assert '</html>' in parsed_page
     assert '<a href="prose">Prose</a>' in parsed_page
     assert '<a href="hello/world">Related Link</a>' in parsed_page
+
+
+def test_save_page(tmpdir):
+    page = 'page'
+    base_url='http://lib.ru/books/'
+    url = '/books/hello/1.html'
+    save_page(page, url, base_url, str(tmpdir))
+    page_file = tmpdir.join('hello', '1.html')
+    assert page == page_file.read_text('ascii')
